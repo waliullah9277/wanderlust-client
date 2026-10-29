@@ -146,7 +146,7 @@ export function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
-            <nav className="relative mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4  py-3 sm:px-6">
+            <nav className="relative mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-10">
                 {/* Desktop navigation */}
                 <ul className="hidden items-center gap-4 lg:flex xl:gap-6">
                     {navLinks.map((link) => (

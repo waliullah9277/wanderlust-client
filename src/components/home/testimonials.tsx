@@ -86,7 +86,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-7xl">
         <Carousel
           opts={{ align: "start", loop: true }}
-          className="w-full"
+          className="w-full relative px-4 sm:px-10"
         >
           {/* Heading + carousel controls */}
           <div className="flex items-center justify-between gap-3 sm:gap-6">

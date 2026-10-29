@@ -126,7 +126,7 @@ export default function Featured() {
 
     return (
         <section className="overflow-hidden bg-background py-12 md:py-16">
-            <div className="mx-auto max-w-7xl sm:px-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-10">
                 {/* Section heading */}
                 <div className="mb-8 flex items-end justify-between gap-4">
                     <div>

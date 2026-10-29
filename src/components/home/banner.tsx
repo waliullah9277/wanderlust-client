@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const searchFields = [
   { label: "Location", placeholder: "Address, City Or Zip" },
@@ -33,40 +34,47 @@ export function Banner() {
           with our curated travel experiences.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
+          <Link
             href="/destinations"
             className="flex items-center gap-3 bg-[#00A8E8] px-7 py-3.5 text-sm font-semibold tracking-widest text-white uppercase transition-colors hover:bg-[#0095d1]"
           >
             Explore Now
             <ArrowRight className="size-4" />
-          </a>
-          <a
+          </Link>
+          <Link
             href="/destinations"
             className="bg-white/30 px-7 py-3.5 text-sm font-semibold tracking-widest text-white uppercase backdrop-blur-sm transition-colors hover:bg-white/40"
           >
             View Destination
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Search bar */}
-      <div className="absolute inset-x-0 bottom-0 z-10 flex w-full">
+
+      <div className="absolute inset-x-0 bottom-0 z-10 grid w-full grid-cols-2 sm:flex sm:flex-row">
         {searchFields.map((field) => (
           <div
             key={field.label}
-            className="flex-1 border-r border-white/20 bg-black/40 px-6 py-3.5 backdrop-blur-sm"
+            className="min-w-0 border-r border-b border-white/20 bg-black/40 px-3 py-3 backdrop-blur-sm sm:flex-1 sm:border-b-0 sm:px-4 md:px-6 md:py-3.5"
           >
-            <p className="text-sm font-semibold text-white">{field.label}</p>
-            <p className="mt-0.5 text-xs text-white/70">{field.placeholder}</p>
+            <p className="truncate text-xs font-semibold text-white sm:text-sm">
+              {field.label}
+            </p>
+            <p className="mt-0.5 truncate text-[10px] text-white/70 sm:text-xs">
+              {field.placeholder}
+            </p>
           </div>
         ))}
+
         <button
           type="button"
-          className="bg-[#00A8E8] px-12 text-sm font-semibold text-white transition-colors hover:bg-[#0095d1]"
+          className="col-span-2 min-h-11 bg-[#00A8E8] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0095d1] sm:col-span-1 sm:min-h-0 sm:px-6 md:px-12"
         >
           Search
         </button>
       </div>
+
     </section>
   );
 }

@@ -24,7 +24,7 @@ const features = [
 export function WhyChooseUs() {
   return (
     <section className="w-full border-t border-[#00A8E8] bg-[#def3fd] py-16 px-6">
-      <div className="mx-auto max-w-7xl border border-dashed border-[#00A8E8]/60 px-8 py-14 md:px-14">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-10">
         {/* Heading */}
         <div className="text-center">
           <h2 className="text-4xl font-light tracking-tight text-foreground md:text-5xl">
