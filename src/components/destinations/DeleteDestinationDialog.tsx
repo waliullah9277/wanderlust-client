@@ -16,16 +16,24 @@ import {
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const DeleteDestinationDialog = ({ destination }: { destination: { _id: string; name: string } }) => {
     const router = useRouter();
 
 
     const handleDelete = async () => {
+        const token = await getTokenFromClient()
         try {
             const res = await fetch(
-                `http://localhost:8000/destinations/${destination._id}`,
-                { method: "DELETE" }
+                `${process.env.NEXT_PUBLIC_URL}/destinations/${destination._id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+
+                }
             );
 
             const data = await res.json().catch(() => null);
@@ -66,10 +74,17 @@ const DeleteDestinationDialog = ({ destination }: { destination: { _id: string; 
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure Delete This Destination?</AlertDialogTitle>
+                        <AlertDialogTitle>
+                            Are you sure you want to delete this destination?
+                        </AlertDialogTitle>
+
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            from our servers.
+                            Are you sure you want to permanently delete{" "}
+                            <span className="font-semibold text-foreground">
+                                {destination.name}
+                            </span>
+                            ? This action cannot be undone. All information associated with this
+                            destination may be permanently removed.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

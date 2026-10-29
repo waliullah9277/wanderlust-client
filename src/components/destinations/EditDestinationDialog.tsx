@@ -25,6 +25,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const categories = ["Beach", "Mountain", "City", "Adventure", "Cultural"];
 
@@ -66,6 +67,7 @@ const EditDestinationDialog = ({
         if (isUpdating) return;
 
         setIsUpdating(true);
+        const token = await getTokenFromClient()
 
         try {
             const { _id, ...rest } = form;
@@ -76,11 +78,12 @@ const EditDestinationDialog = ({
             };
 
             const res = await fetch(
-                `http://localhost:8000/destinations/${destination._id}`,
+                `${process.env.NEXT_PUBLIC_URL}/destinations/${destination._id}`,
                 {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
+                        authorization: `Bearer ${token}`
                     },
                     body: JSON.stringify(updatedData),
                 }

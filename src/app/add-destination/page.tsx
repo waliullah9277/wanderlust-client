@@ -16,7 +16,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
-// import { redirect } from "next/navigation";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
+
 
 const categories = ["Beach", "Mountain", "City", "Adventure", "Cultural"];
 
@@ -44,11 +45,13 @@ export default function AddDestinationPage() {
     ) => {
         event.preventDefault();
 
+        const token = await getTokenFromClient()
 
-        const res = await fetch("http://localhost:8000/add-destination", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/add-destination`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 ...form,
@@ -61,16 +64,16 @@ export default function AddDestinationPage() {
         console.log("HTTP status:", res.status);
         console.log("Raw response:", responseText);
 
-        let data;
+        let result;
 
         try {
-            data = JSON.parse(responseText);
+            result = JSON.parse(responseText);
         } catch {
             throw new Error("Server returned an invalid JSON response");
         }
 
-        if (!res.ok || !data.success) {
-            throw new Error(data.message || "Failed to add travel package!");
+        if (!res.ok || !result.success) {
+            throw new Error(result.message || "Failed to add travel package!");
         }
 
         toast.success("Travel package added successfully!");

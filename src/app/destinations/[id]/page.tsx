@@ -3,16 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ArrowRight,
   CalendarDays,
   Check,
   MapPin,
-  Pencil,
   Star,
-  Trash2,
 } from "lucide-react";
 import EditDestinationDialog from "@/components/destinations/EditDestinationDialog";
 import DeleteDestinationDialog from "@/components/destinations/DeleteDestinationDialog";
+import BookingCard from "@/components/booking/BookingCard";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 interface Destination {
   _id: string;
@@ -35,10 +34,16 @@ const DestinationDetailsPage = async ({
 
   let destination: Destination | null = null;
 
+  
+  const token = await getTokenFromServer()
   try {
     const res = await fetch(
-      `http://localhost:8000/destinations/${id}`,
-      { cache: "no-store" },
+      `${process.env.NEXT_PUBLIC_URL}/destinations/${id}`,
+      { cache: "no-store", 
+        headers:{
+          authorization: `Bearer ${token}`
+        }
+      },
     );
 
     if (!res.ok) {
@@ -73,7 +78,6 @@ const DestinationDetailsPage = async ({
     );
   }
 
-  const price = Number(destination.price);
 
   const highlights = [
     "Beautiful natural scenery",
@@ -85,7 +89,7 @@ const DestinationDetailsPage = async ({
 
   return (
     <main className="min-h-screen bg-background px-5 py-8 sm:px-8 sm:py-10">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-5xl">
         {/* Top navigation and actions */}
         <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
           <Link
@@ -185,59 +189,7 @@ const DestinationDetailsPage = async ({
             </section>
 
             {/* Booking card */}
-            <aside className="h-fit border border-border bg-background p-5 shadow-sm lg:sticky lg:top-24">
-              <p className="text-xs text-muted-foreground">
-                Starting from
-              </p>
-
-              <p className="mt-1 text-2xl font-medium tracking-tight text-[#00A8E8]">
-                ${price.toLocaleString("en-US")}
-              </p>
-
-              <p className="text-xs text-muted-foreground">
-                per person
-              </p>
-
-              <div className="mt-7">
-                <label
-                  htmlFor="departureDate"
-                  className="mb-2 block text-xs text-muted-foreground"
-                >
-                  Departure Date
-                </label>
-
-                <input
-                  id="departureDate"
-                  type="date"
-                  value={destination.departureDate}
-                  readOnly
-                  className="h-10 w-full border border-border bg-muted/30 px-3 text-xs outline-none"
-                />
-              </div>
-
-              <button
-                type="button"
-                className="mt-5 flex h-11 w-full items-center justify-center gap-2 bg-[#17A2B8] px-4 text-xs font-medium text-white transition-colors hover:bg-[#138496]"
-              >
-                Book Now
-                <ArrowRight className="size-4" />
-              </button>
-
-              <ul className="mt-4 space-y-2.5 text-[11px] text-muted-foreground">
-                <li className="flex items-center gap-2">
-                  <Check className="size-3.5 text-green-600" />
-                  Free cancellation up to 7 days
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="size-3.5 text-green-600" />
-                  Travel assistance included
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="size-3.5 text-green-600" />
-                  Customer support
-                </li>
-              </ul>
-            </aside>
+            <BookingCard destination={destination}/>
           </div>
         </div>
       </div>

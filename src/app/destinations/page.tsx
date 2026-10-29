@@ -1,10 +1,11 @@
 
 import AllDestinationsContent from "@/components/destinations/all-destinations-content";
+export const dynamic = "force-dynamic";
 
 export interface Destination {
   _id?: string;
   id?: string;
-  destinationName: string;
+  name: string;
   country: string;
   category: string;
   price: number | string;
@@ -19,7 +20,7 @@ const AllDestinationsPage = async () => {
   let destinations: Destination[] = [];
 
   try {
-    const res = await fetch("http://localhost:8000/destinations", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/destinations`, {
       cache: "no-store",
     });
 
@@ -29,7 +30,7 @@ const AllDestinationsPage = async () => {
 
     const data: unknown = await res.json();
 
-    // API সরাসরি array অথবা { destinations: [...] } দিলে support করবে।
+
     if (Array.isArray(data)) {
       destinations = data as Destination[];
     } else if (
